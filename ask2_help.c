@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 void printWithPrefix(int fd, char* checkChar, char* printLine)
@@ -17,5 +18,23 @@ void printWithPrefix(int fd, char* checkChar, char* printLine)
         {   
             sprintf(printLine, "%s%s", printLine, checkChar);
         }
+    }
+}
+
+void validateArgumentNumber(int argumentNumber, int rightNumber)
+{
+    if (argumentNumber == rightNumber)
+    {
+        return;
+    }
+    else if (argumentNumber > rightNumber)
+    {
+        printf("Too many arguments\n");
+        exit(-1);
+    }
+    else
+    {
+        printf("Too few arguments\n");
+        exit(-1);
     }
 }

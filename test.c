@@ -14,7 +14,8 @@ int main(int argc, char* argv[])
     char* string2 = "0101"; //argv[3];
     char* pathFile = argv[1];
 
-    char myChar[1];
+    char myChar[2];
+    memset(myChar,0,2);
     int pipePtC[2];             // pipe Parent to Child
     int pipeCtP[2];             // pipe Child to Parent
     int c_pid;                  // child pid
@@ -27,11 +28,26 @@ int main(int argc, char* argv[])
     memset(buffer, 0 , sizeof(buffer));
     sprintf(finalPrint, "Data received through pipe ");
 
-    pipe(pipePtC);
-    pipe(pipeCtP);
+    validateArgumentNumber(argc, 2);    //4
 
-    // elegxw oti den einai -1
-    if((c_pid = fork()) != 0)
+    /* Create Pipes */
+    if (pipe(pipePtC) < 0)
+    {
+        perror("Pipe Parent to Child failed ");
+        exit(-1);
+    }
+    if (pipe(pipeCtP) < 0)
+    {
+        perror("Pipe Child to Parent failed ");
+        exit(-1);
+    }
+
+    /* Make Fork */
+    if( (c_pid = fork()) < 0)
+    {
+        perror("Fork didnt work ");
+    }
+    else if (c_pid != 0)
     {
         /* Parent Code */
         close(pipePtC[0]);
@@ -49,7 +65,7 @@ int main(int argc, char* argv[])
         } 
         close(pipePtC[1]);
         wait(0);
-   
+
         printWithPrefix(pipeCtP[0], myChar, finalPrint);
         close(pipeCtP[0]);
     }
@@ -59,7 +75,6 @@ int main(int argc, char* argv[])
         close(pipeCtP[0]);
         close(pipePtC[1]);
 
-        //char* command = sprintf("s/",string1,"/",string2,"/g");  // command init ?
         dup2(pipePtC[0],0);
         dup2(pipeCtP[1],1);
 
