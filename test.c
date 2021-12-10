@@ -10,22 +10,22 @@
 
 int main(int argc, char* argv[])
 {
+    char* string1 = "ijkl"; //argv[2];
+    char* string2 = "0101"; //argv[3];
+    char* pathFile = argv[1];
+
+    char myChar[1];
     int pipePtC[2];             // pipe Parent to Child
     int pipeCtP[2];             // pipe Child to Parent
     int c_pid;                  // child pid
     int fd_file;
-    char buffer[128];
+    
     char finalPrint[256];
     char command [128];
     int char_read;
-
+    char buffer[128];
     memset(buffer, 0 , sizeof(buffer));
     sprintf(finalPrint, "Data received through pipe ");
-
-    char* string1 = "ijkl"; //argv[2];
-    char* string2 = "0101"; //argv[3];
-    char* pathFile = argv[1];
-    char myChar[1];
 
     pipe(pipePtC);
     pipe(pipeCtP);
