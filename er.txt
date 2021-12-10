@@ -1,0 +1,12 @@
+- Wait() giati ? read einai block
+- Theloume se kathe new line na prosthetei to Data received through pipe ?
+
+-- --
+Se new line prepei na kanei pali read
+    Mipos fgets() // oxi
+    Read() 1-1 -> sprintf()
+
+#Tests pou prepei na pernaei
+./askisi eaf eafea aef aef aef     // many arguments
+./askisi                           // few arguments
+./askisi .....

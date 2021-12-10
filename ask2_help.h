@@ -1,0 +1,1 @@
+void printWithPrefix(int fd, char* checkChar, char* printLine);
