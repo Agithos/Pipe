@@ -1,11 +1,8 @@
-- Wait() giati ? read einai block
-- Theloume se kathe new line na prosthetei to Data received through pipe ?
-
-
 -- --
 Koitaw ti validation exoun paradeigmata
 Koitaw paradeigmata gia buffers
 Koitaw pou vazw to size - 1     // read i write
+Prosoxi ti kanw an gemisei to finalPrint buffer
 
 #Tests pou prepei na pernaei
 ./askisi eaf eafea aef aef aef     // many arguments

@@ -10,33 +10,34 @@
 
 int main(int argc, char* argv[])
 {
-    char* string1 = "ijkl"; //argv[2];
-    char* string2 = "0101"; //argv[3];
+    char* string1 = argv[2];
+    char* string2 = argv[3];
     char* pathFile = argv[1];
 
-    char myChar[2];
-    memset(myChar,0,2);
     int pipePtC[2];             // pipe Parent to Child
     int pipeCtP[2];             // pipe Child to Parent
     int c_pid;                  // child pid
-    int fd_file;
+    int fd_file;                // fd gia to open
     
-    char finalPrint[512];
-    memset(finalPrint, 0, sizeof(finalPrint));
     char command [128];
     int char_read;
+
+    // buffers
+    char myChar[2];
+    memset(myChar,0,2);
+
     char buffer[256];
     memset(buffer, 0 , sizeof(buffer));
 
-    validateArgumentNumber(argc, 2);    //4
+    validateArgumentNumber(argc, 4);            // elegxei plithos arguments
 
     /* Create Pipes */
-    if (pipe(pipePtC) < 0)
+    if (pipe(pipePtC) < 0)                      // pipe Parent to Child
     {
         perror("Pipe Parent to Child error ");
         exit(-1);
     }
-    if (pipe(pipeCtP) < 0)
+    if (pipe(pipeCtP) < 0)                      // pipe Child to Parent
     {
         perror("Pipe Child to Parent error ");
         exit(-1);
@@ -54,14 +55,16 @@ int main(int argc, char* argv[])
         close(pipePtC[0]);
         close(pipeCtP[1]);
 
-        if ( (fd_file = open(pathFile, O_RDONLY)) < 0)  // anoigw arxeio (infile)
+        if ( (fd_file = open(pathFile, O_RDONLY)) < 0)  // open File
         {
             perror("Open source failed ");
             exit(-1);
         }   
 
-        while( (char_read = read(fd_file, buffer,sizeof(buffer)-1) ) > 0)        // i thelei fd me th mia to arxeio
+        //Read File
+        while( (char_read = read(fd_file, buffer,sizeof(buffer)-1) ) > 0)   
         {
+            //Write sto Child-pipe
             if ( (write(pipePtC[1], buffer, char_read)) != char_read)   //write error check
             {
                 perror("Write error ");
@@ -78,7 +81,7 @@ int main(int argc, char* argv[])
         close(pipePtC[1]);
         wait(0);
 
-        printWithPrefix(pipeCtP[0], myChar, finalPrint);
+        printWithPrefix(pipeCtP[0], myChar, buffer);        // prosthetei se kathe \n to prefix (Data..)
         close(pipeCtP[0]);
     }
     else
@@ -87,16 +90,16 @@ int main(int argc, char* argv[])
         close(pipeCtP[0]);
         close(pipePtC[1]);
 
-        dup2(pipePtC[0],0);
-        dup2(pipeCtP[1],1);
+        dup2(pipePtC[0],0);         // input apo pipe me Parent
+        dup2(pipeCtP[1],1);         // output se pipe me Parent
 
         close(pipeCtP[1]);
-        close(pipePtC[1]);
+        close(pipePtC[0]);
 
-        sprintf(command, "s/%s/%s/g", string1, string2);
+        sprintf(command, "s/%s/%s/g", string1, string2);            // command pou tha bei sto exec
         execl("/usr/bin/sed", "sed", command, pathFile,(char*)0);
 
-        perror("Sed exec didnt work ");
+        perror("Sed exec didnt work ");                             // de tha ektelestei an piasei exec
         exit(-1);
     }
 
