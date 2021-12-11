@@ -1,0 +1,41 @@
+Script started on 2021-12-11 12:04:06+02:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="113" LINES="65"]
+]0;adduser@PC-PC: ~/6_Pipes[01;32madduser@PC-PC[00m:[01;34m~/6_Pipes[00m$ cat ./infile
+cat: ./infile: No such file or directory
+]0;adduser@PC-PC: ~/6_Pipes[01;32madduser@PC-PC[00m:[01;34m~/6_Pipes[00m$ cat ./infile.txt
+abcdefg
+123456
+ijklmno
+01010101
+]0;adduser@PC-PC: ~/6_Pipes[01;32madduser@PC-PC[00m:[01;34m~/6_Pipes[00m$ cat ./infile.txt[K[K[K[K[K[K[K[K[K[Kt1
+Ena apo ta
+2 einai ena apo ta 3!
+Twra
+To t1 einai dokimastiko arxeio gia thn ergasia!!
+]0;adduser@PC-PC: ~/6_Pipes[01;32madduser@PC-PC[00m:[01;34m~/6_Pipes[00m$ make clean
+rm askisi2
+]0;adduser@PC-PC: ~/6_Pipes[01;32madduser@PC-PC[00m:[01;34m~/6_Pipes[00m$ make
+gcc askisi2.c ask2_help.c -o askisi2
+]0;adduser@PC-PC: ~/6_Pipes[01;32madduser@PC-PC[00m:[01;34m~/6_Pipes[00m$ ./askisis[K
+bash: ./askisi: No such file or directory
+]0;adduser@PC-PC: ~/6_Pipes[01;32madduser@PC-PC[00m:[01;34m~/6_Pipes[00m$ ./askisi2 
+Too few arguments
+]0;adduser@PC-PC: ~/6_Pipes[01;32madduser@PC-PC[00m:[01;34m~/6_Pipes[00m$ ./askisi2 fe af f
+Open source failed : No such file or directory
+]0;adduser@PC-PC: ~/6_Pipes[01;32madduser@PC-PC[00m:[01;34m~/6_Pipes[00m$ sed: can't read fe: No such file or directory
+./askisi2 fe af fe g
+Too many arguments
+]0;adduser@PC-PC: ~/6_Pipes[01;32madduser@PC-PC[00m:[01;34m~/6_Pipes[00m$ make try1
+./askisi2 infile.txt ijkl 010101
+Data received through pipe abcdefg
+Data received through pipe 123456
+Data received through pipe 010101mno
+Data received through pipe 01010101
+]0;adduser@PC-PC: ~/6_Pipes[01;32madduser@PC-PC[00m:[01;34m~/6_Pipes[00m$ make try2
+./askisi2 t1 o 11
+Data received through pipe Ena ap11 ta
+Data received through pipe 2 einai ena ap11 ta 3!
+Data received through pipe Twra
+Data received through pipe T11 t1 einai d11kimastik11 arxei11 gia thn ergasia!!
+]0;adduser@PC-PC: ~/6_Pipes[01;32madduser@PC-PC[00m:[01;34m~/6_Pipes[00m$ exit
+
+Script done on 2021-12-11 12:05:30+02:00 [COMMAND_EXIT_CODE="0"]
