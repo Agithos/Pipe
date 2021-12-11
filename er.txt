@@ -1,12 +1,22 @@
 - Wait() giati ? read einai block
 - Theloume se kathe new line na prosthetei to Data received through pipe ?
 
+
 -- --
-Se new line prepei na kanei pali read
-    Mipos fgets() // oxi
-    Read() 1-1 -> sprintf()
+Koitaw ti validation exoun paradeigmata
+Koitaw paradeigmata gia buffers
+Koitaw pou vazw to size - 1     // read i write
 
 #Tests pou prepei na pernaei
 ./askisi eaf eafea aef aef aef     // many arguments
 ./askisi                           // few arguments
-./askisi .....
+./askisi lathos_arxeio              // to xtipaei logika to sed
+
+Errors
+    Fork < 0
+    Pipe1 < 0
+    Pipe2 < 0
+    Open < 0
+    Write / Read ?
+        char_read < 0 -> perror , exit
+        char_read != write() -> perror, exit

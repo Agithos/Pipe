@@ -21,33 +21,34 @@ int main(int argc, char* argv[])
     int c_pid;                  // child pid
     int fd_file;
     
-    char finalPrint[256];
+    char finalPrint[512];
+    memset(finalPrint, 0, sizeof(finalPrint));
     char command [128];
     int char_read;
-    char buffer[128];
+    char buffer[256];
     memset(buffer, 0 , sizeof(buffer));
-    sprintf(finalPrint, "Data received through pipe ");
 
     validateArgumentNumber(argc, 2);    //4
 
     /* Create Pipes */
     if (pipe(pipePtC) < 0)
     {
-        perror("Pipe Parent to Child failed ");
+        perror("Pipe Parent to Child error ");
         exit(-1);
     }
     if (pipe(pipeCtP) < 0)
     {
-        perror("Pipe Child to Parent failed ");
+        perror("Pipe Child to Parent error ");
         exit(-1);
     }
 
     /* Make Fork */
     if( (c_pid = fork()) < 0)
     {
-        perror("Fork didnt work ");
+        perror("Fork error ");
+        exit(-1);
     }
-    else if (c_pid != 0)
+    if (c_pid != 0)
     {
         /* Parent Code */
         close(pipePtC[0]);
@@ -55,14 +56,25 @@ int main(int argc, char* argv[])
 
         if ( (fd_file = open(pathFile, O_RDONLY)) < 0)  // anoigw arxeio (infile)
         {
-            perror("Error reading\n");
+            perror("Open source failed ");
+            exit(-1);
         }   
 
-        while( (char_read = read(fd_file, buffer,sizeof(buffer)) ) > 0)        // i thelei fd me th mia to arxeio
+        while( (char_read = read(fd_file, buffer,sizeof(buffer)-1) ) > 0)        // i thelei fd me th mia to arxeio
         {
-            write(pipePtC[1], buffer, char_read);   // grafw sto input
+            if ( (write(pipePtC[1], buffer, char_read)) != char_read)   //write error check
+            {
+                perror("Write error ");
+                exit(-1);
+            };
             memset(buffer, 0, sizeof(buffer));
         } 
+        if (char_read < 0)                                              // read error check
+        {
+            perror("Read error ");
+            exit(-1);
+        }
+
         close(pipePtC[1]);
         wait(0);
 
@@ -83,6 +95,9 @@ int main(int argc, char* argv[])
 
         sprintf(command, "s/%s/%s/g", string1, string2);
         execl("/usr/bin/sed", "sed", command, pathFile,(char*)0);
+
+        perror("Sed exec didnt work ");
+        exit(-1);
     }
 
     return 0;
